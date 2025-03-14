@@ -106,17 +106,17 @@ function sendCommand(command) {
 }
 
 // Command input handling (simulating server-side input)
-process.stdin.on("data", (input) => {
-  const command = input.toString().trim();
+// process.stdin.on("data", (input) => {
+//   const command = input.toString().trim();
 
-  if (command === "client_lists") {
-    showClients();
-  } else if (command.startsWith("select_client")) {
-    const clientId = command.split(" ")[1];
-    selectClient(clientId);
-  } else {
-    sendCommand(command);
-  }
-});
+//   if (command === "client_lists") {
+//     showClients();
+//   } else if (command.startsWith("select_client")) {
+//     const clientId = command.split(" ")[1];
+//     selectClient(clientId);
+//   } else {
+//     sendCommand(command);
+//   }
+// });
 
-console.log("WebSocket server is listening on ws://localhost:5009");
+// console.log("WebSocket server is listening on ws://localhost:5009");
