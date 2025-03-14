@@ -1,6 +1,12 @@
 const WebSocket = require("ws");
+const http = require("http");
 
-const wss = new WebSocket.Server({ port: 5009 });
+const server = http.createServer();
+const wss = new WebSocket.Server({ server });
+
+server.listen(process.env.PORT || 5009, () => {
+  console.log("WebSocket server is listening...");
+});
 
 const clients = new Map(); // Store clients with unique identifiers
 let selectedClient = null; // Track the selected client
