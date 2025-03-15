@@ -2,6 +2,12 @@ import { Server } from "ws";
 
 let wss = null;
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 export default function handler(req, res) {
   if (!wss) {
     const server = res.socket.server;
