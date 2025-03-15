@@ -1,13 +1,9 @@
 {
-  "routes": [
+  "version": 2,
+  "builds": [
     {
-      "src": "/api/websocket",
-      "dest": "/api/websocket.js"
+      "src": "index.js",
+      "use": "@vercel/node"
     }
-  ],
-  "functions": {
-    "api/websocket.js": {
-      "maxDuration": 10
-    }
-  }
+  ]
 }
