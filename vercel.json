@@ -4,5 +4,11 @@
       "src": "/api/websocket",
       "dest": "/api/websocket.js"
     }
-  ]
+  ],
+  "functions": {
+    "api/websocket.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 10
+    }
+  }
 }
