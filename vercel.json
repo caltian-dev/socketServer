@@ -1,15 +1,8 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/ws.js",
-      "use": "@vercel/node"
-    }
-  ],
   "routes": [
     {
-      "src": "/ws",
-      "dest": "api/ws.js"
+      "src": "/api/websocket",
+      "dest": "/api/websocket.js"
     }
   ]
 }
