@@ -10,8 +10,6 @@ wss.on("connection", (ws, req) => {
   const clientId = req.socket.remoteAddress + ":" + req.socket.remotePort;
   clients.set(clientId, ws);
   console.log(`✅ Client connected: ${clientId}`);
-  controller &&
-    clients.get(controller).send(`✅ Client connected: ${clientId}`);
 
   ws.on("message", (msg) => {
     let message = String(msg);
@@ -46,8 +44,6 @@ wss.on("connection", (ws, req) => {
   ws.on("close", () => {
     clients.delete(clientId);
     console.log(`❌ Client disconnected: ${clientId}`);
-    controller &&
-      clients.get(controller).send(`❌ Client disconnected: ${clientId}`);
     if (selectedClient === clientId) {
       selectedClient = null;
     }
