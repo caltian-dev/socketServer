@@ -10,6 +10,8 @@ wss.on("connection", (ws, req) => {
   const clientId = req.socket.remoteAddress + ":" + req.socket.remotePort;
   clients.set(clientId, ws);
   console.log(`✅ Client connected: ${clientId}`);
+  controller &&
+    clients.get(controller).send(`✅ Client connected: ${clientId}`);
 
   ws.on("message", (msg) => {
     let message = String(msg);
@@ -41,24 +43,11 @@ wss.on("connection", (ws, req) => {
     } else ws.send("ACK");
   });
 
-  // ws.on("message", (message) => {
-  //   console.log("!@#!@#!@#!@#", message);
-  //   if (message === "Y@to$eecjm1228!") {
-  //     console.log("!!!!!!!!", ws);
-  //   }
-  //   if (message === "client_lists") {
-  //     showClients();
-  //   } else if (message.startsWith("select_client")) {
-  //     const clientId = message.split(" ")[1];
-  //     selectClient(clientId);
-  //   } else {
-  //     sendCommand(message);
-  //   }
-  // });
-
   ws.on("close", () => {
     clients.delete(clientId);
     console.log(`❌ Client disconnected: ${clientId}`);
+    controller &&
+      clients.get(controller).send(`❌ Client disconnected: ${clientId}`);
     if (selectedClient === clientId) {
       selectedClient = null;
     }
