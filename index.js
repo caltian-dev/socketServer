@@ -11,6 +11,10 @@ wss.on("connection", (ws, req) => {
   clients.set(clientId, ws);
   console.log(`✅ Client connected: ${clientId}`);
 
+  if (controller && clients.has(controller)) {
+    clients.get(controller).send(`✅ Client connected: ${clientId}`);
+  }
+
   ws.on("message", (msg) => {
     let message = String(msg);
     console.log(`📥 Message from ${clientId}: ${message}`);
