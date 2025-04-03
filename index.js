@@ -1,4 +1,5 @@
 const WebSocket = require("ws");
+const url = require("url");
 
 const wss = new WebSocket.Server({ port: 5009 });
 
@@ -7,7 +8,13 @@ let selectedClient = null; // Track the selected client
 let controller = null;
 
 wss.on("connection", (ws, req) => {
-  const clientId = req.socket.remoteAddress + ":" + req.socket.remotePort;
+  const userIP = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+
+  // Parse query parameters from WebSocket URL
+  const params = new URLSearchParams(url.parse(req.url).query);
+  const username = params.get("username") || "unknown";
+  const clientId = userIP + ":" + req.socket.remotePort + ":" + username;
+
   clients.set(clientId, ws);
   console.log(`✅ Client connected: ${clientId}`);
 
@@ -48,6 +55,11 @@ wss.on("connection", (ws, req) => {
   ws.on("close", () => {
     clients.delete(clientId);
     console.log(`❌ Client disconnected: ${clientId}`);
+
+    if (controller && clients.has(controller)) {
+      clients.get(controller).send(`✅ Client disconnected: ${clientId}`);
+    }
+
     if (selectedClient === clientId) {
       selectedClient = null;
     }
