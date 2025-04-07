@@ -79,7 +79,7 @@ function showClients() {
 }
 
 function selectClient(clientId) {
-  if ([...clients.keys()].length < clientId || clientId < 1) {
+  if ([...clients.keys()].length >= clientId && clientId > 0) {
     selectedClient = [...clients.keys()][clientId - 1];
     console.log(`✅ Client ${selectedClient} selected!`);
     clients.get(controller).send(`✅ Client ${selectedClient} selected!`);
