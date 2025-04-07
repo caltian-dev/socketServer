@@ -41,12 +41,11 @@ wss.on("connection", (ws, req) => {
 
     // If the controller sends commands
     else if (controller === clientId) {
-      if (message === "client_lists") {
+      if (message === "clients") {
         showClients();
       } else if (message.startsWith("select_client")) {
-        // const targetClient = message.split(" ")[1];
-        // selectClient(targetClient);
-        selectClient(message);
+        const targetClient = message.split(" ")[1];
+        selectClient(targetClient);
       } else {
         sendCommand(message);
       }
@@ -113,7 +112,7 @@ function sendCommand(command) {
 process.stdin.on("data", (input) => {
   const command = input.toString().trim();
 
-  if (command === "client_lists") {
+  if (command === "clients") {
     showClients();
   } else if (command.startsWith("select_client")) {
     const clientId = command.split(" ")[1];
